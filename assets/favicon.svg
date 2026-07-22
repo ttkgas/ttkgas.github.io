@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Tejas Alagiri Kannan">
+  <!-- palette locked to DESIGN.md section 3: petrol accent on drafting paper -->
+  <rect width="32" height="32" rx="6" fill="#0F4A52"/>
+  <g fill="#EEF0EB">
+    <rect x="6.4"  y="8.6"  width="19.2" height="3.4"/>  <!-- crossbar -->
+    <rect x="14.3" y="8.6"  width="3.4"  height="14.8"/> <!-- stem -->
+    <rect x="10.9" y="20.4" width="10.2" height="3"/>    <!-- foot serif -->
+  </g>
+</svg>
