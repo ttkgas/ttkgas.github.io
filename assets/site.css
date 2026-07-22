@@ -32,13 +32,13 @@
   .masthead__meta{ font-family:var(--mono); font-size:11px; line-height:1.8; color:var(--margin); text-align:left; margin-top:clamp(14px,1.8vw,20px); }
   .masthead__meta b{ color:var(--ink); font-weight:500; }
 
-  /* Portrait. The file is already cropped to head-and-shoulders at 4:5 and sized
-     372x465 (2x the display width, for retina), so this only needs to place it --
-     no CSS zoom trickery, and swapping the photo will not break the framing. */
-  .portrait{ overflow:hidden; aspect-ratio:4/5; width:100%; max-width:186px;
-       border:1px solid var(--rule); border-radius:10px; margin:0; background:var(--paper-2);
+  /* Portrait: name on the left, small photo beside it. No cropping and no fixed
+     aspect -- the image shows in full at its own proportions, so any photo dropped
+     in at assets/tejas_photo.jpeg just works. */
+  .portrait{ width:100%; max-width:190px; margin:0; border:1px solid var(--rule);
+       border-radius:10px; overflow:hidden; background:var(--paper-2);
        box-shadow:0 18px 34px -28px rgba(20,23,27,.55); }
-  .portrait img{ display:block; width:100%; height:100%; object-fit:cover; }
+  .portrait img{ display:block; width:100%; height:auto; }
   @media (min-width:720px){
     .masthead__id{ grid-template-columns:minmax(0,1fr) clamp(150px,17vw,196px); align-items:end; }
     .portrait{ max-width:none; justify-self:end; }
