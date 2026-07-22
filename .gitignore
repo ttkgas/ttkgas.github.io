@@ -1,3 +1,8 @@
 CLAUDE.md
 DESIGN.md
 
+# The master resume carries a phone number and this repo is public.
+# See CLAUDE.md "Guardrails". Publish a redacted PDF under a different
+# name if the footer link is ever wired up.
+assets/ResumeMasterDoc*
+*:Zone.Identifier
