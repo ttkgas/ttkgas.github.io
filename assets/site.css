@@ -107,45 +107,30 @@
   .stages__read{ font-family:var(--mono); font-size:10.5px; color:var(--panel-margin); margin-top:16px; line-height:1.75; min-height:4.4em; border-top:1px solid rgba(255,255,255,.08); padding-top:13px; }
   .stages__read b{ color:var(--term); font-weight:500; }
 
-  /* ============ 3D CHRONOLOGICAL MAP ============ */
+  /* ============ THE RECORD ============ */
+  /* A chronological list: every year open at once, nothing hidden. This began as
+     a 3D map with year planes receding in Z and a flat fallback behind a toggle.
+     The fallback won -- it shows all 17 entries at a glance, which is the whole
+     job of this section, so the 3D layer and its toggle were removed rather than
+     kept as a second way to see the same thing. */
   .map{ position:relative; }
-  .map__bar{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:14px; font-family:var(--mono); font-size:10.5px; }
+  .map__bar{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:18px; font-family:var(--mono); font-size:10.5px; }
   .mf{ font-family:var(--mono); font-size:10.5px; letter-spacing:.04em; color:var(--margin); background:transparent;
        border:1px solid var(--rule); border-radius:999px; padding:5px 12px; cursor:pointer; transition:.18s; }
   .mf:hover{ border-color:var(--ink); color:var(--ink); }
   .mf[aria-pressed="true"]{ background:var(--ink); border-color:var(--ink); color:var(--paper); }
-  .map__spacer{ margin-left:auto; }
-  .map__step{ font-family:var(--mono); font-size:12px; color:var(--ink); background:transparent; border:1px solid var(--rule);
-       border-radius:6px; width:28px; height:26px; cursor:pointer; transition:.18s; }
-  .map__step:hover{ border-color:var(--accent); color:var(--accent); }
-  .map__step[disabled]{ opacity:.3; cursor:default; }
-
   .map__count{ font-family:var(--mono); font-size:10.5px; color:var(--margin); letter-spacing:.04em; padding-left:4px; }
-  .map__stage{ position:relative; height:400px; perspective:1500px; perspective-origin:50% 46%;
-       border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); overflow:hidden;
-       background:radial-gradient(120% 90% at 50% 40%, rgba(15,74,82,.055), transparent 70%); cursor:grab;
-       /* horizontal drag travels the years; vertical belongs to the page, so the
-          map can never swallow scroll on a touch device */
-       touch-action:pan-y; }
-  .map__stage:active{ cursor:grabbing; }
-  .map__scene{ position:absolute; inset:0; transform-style:preserve-3d;
-       transition:transform .8s cubic-bezier(.5,.05,.2,1); will-change:transform; }
-  .plane{ position:absolute; left:50%; top:50%; width:min(780px,90vw);
-       transform:translate(-50%,-50%) translateZ(var(--z)); transform-style:preserve-3d;
-       transition:opacity .55s ease, filter .55s ease; }
-  .plane__year{ font-family:var(--display); font-weight:600; font-size:44px; line-height:1; letter-spacing:-.02em;
-       text-align:center; color:var(--accent); opacity:.16; margin-bottom:10px; user-select:none; }
-  .plane__cards{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
-  .plane[data-state="behind"]{ opacity:0; pointer-events:none; }
-  /* far/near were .3/blur(1.2px) and .62/blur(.4px) — legible enough now that the
-     years behind the active one read as content rather than as texture */
-  .plane[data-state="far"]{ opacity:.4; filter:blur(.85px); pointer-events:none; }
-  .plane[data-state="near"]{ opacity:.7; filter:blur(.25px); pointer-events:none; }
-  .plane[data-state="active"]{ opacity:1; filter:none; }
+
+  .plane{ margin:0 0 26px; }
+  .plane:last-child{ margin-bottom:0; }
+  .plane__year{ font-family:var(--display); font-weight:600; font-size:26px; line-height:1; letter-spacing:-.02em;
+       text-align:left; color:var(--accent); opacity:.5; margin-bottom:9px; user-select:none; }
+  .plane__n{ font-family:var(--mono); font-size:10.5px; font-weight:400; letter-spacing:.04em; margin-left:9px; opacity:.75; }
+  .plane__cards{ display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-start; }
 
   .node{ width:170px; text-align:left; text-decoration:none; background:var(--paper);
        border:1px solid var(--rule); border-radius:9px; padding:11px 12px 12px; display:block;
-       transition:transform .22s ease, border-color .22s ease, box-shadow .22s ease; }
+       transition:transform .22s ease, border-color .22s ease, box-shadow .22s ease, opacity .22s ease; }
   .node:hover{ transform:translateY(-3px); border-color:var(--accent); box-shadow:0 14px 26px -20px rgba(20,23,27,.6); }
   .node__kind{ font-family:var(--mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--margin); display:flex; align-items:center; gap:5px; }
   .node__kind::before{ content:""; width:5px; height:5px; border-radius:50%; background:var(--margin); }
@@ -154,35 +139,13 @@
   .node__title{ font-family:var(--display); font-weight:500; font-size:14.5px; line-height:1.18; display:block; margin-top:6px; letter-spacing:-.01em; }
   .node__sub{ display:block; font-family:var(--serif); font-size:12px; color:var(--ink-soft); line-height:1.35; margin-top:3px; }
   .node__meta{ display:block; font-family:var(--mono); font-size:9.5px; color:var(--margin); margin-top:7px; }
-  .node.dim{ opacity:.22; filter:grayscale(1); }
+  /* filtered-out cards stay in place so the year groups never reflow */
+  .node.dim{ opacity:.3; filter:grayscale(1); }
+  .node.dim:hover{ transform:none; border-color:var(--rule); box-shadow:none; }
 
-  .map__rail{ display:flex; gap:6px; justify-content:center; margin-top:14px; flex-wrap:wrap; }
-  .yr{ font-family:var(--mono); font-size:11px; color:var(--margin); background:transparent; border:1px solid var(--rule);
-       border-radius:999px; padding:5px 14px; cursor:pointer; transition:.18s; }
-  .yr:hover{ border-color:var(--ink); color:var(--ink); }
-  .yr[aria-current="true"]{ background:var(--accent); border-color:var(--accent); color:var(--paper); }
-  .yr__n{ display:inline-block; margin-left:7px; font-size:9.5px; color:var(--margin); }
-  .yr[aria-current="true"] .yr__n{ color:var(--paper); opacity:.72; }
-  .yr.empty{ opacity:.4; }
-  .map__foot{ font-family:var(--mono); font-size:10px; color:var(--margin); text-align:center; margin-top:10px; letter-spacing:.04em; }
-
-  /* flat fallback */
-  .map.flat .map__stage{ perspective:none; height:auto; overflow:visible; cursor:default; background:none; border:0; }
-  .map.flat .map__scene{ position:static; transform:none !important; transition:none; }
-  .map.flat .plane{ position:static; transform:none; width:auto; opacity:1 !important; filter:none !important;
-       pointer-events:auto !important; margin:0 0 22px; }
-  .map.flat .plane__cards{ justify-content:flex-start; }
-  .map.flat .plane__year{ text-align:left; font-size:26px; opacity:.5; margin-bottom:8px; }
-  .map.flat .map__rail, .map.flat .map__step, .map.flat .map__foot{ display:none; }
-
-  /* Phones: 170px cards do not fit two-up inside a 90vw plane, so a year of six
-     stacked into six rows and clipped against the fixed stage height. */
-  @media (max-width:700px){
-    .map__stage{ height:470px; }
+  @media (max-width:640px){
     .plane__cards{ gap:7px; }
     .node{ width:calc(50% - 4px); }
-    .plane__year{ font-size:34px; margin-bottom:8px; }
-    .map.flat .node{ width:100%; }
   }
 
   /* education + skills */
