@@ -30,7 +30,8 @@ function render(){
   el.addEventListener("mouseenter",function(){noteEl.innerHTML=d.n;});
   el.addEventListener("click",function(){noteEl.innerHTML=d.n;});
   barsEl.appendChild(el);
-  setTimeout(function(){el.querySelector(".bar__fill").style.width=(d.v*100)+"%";},60+i*55);
+  // toFixed(1): 0.729*100 is 72.89999999999999 in binary floating point
+  setTimeout(function(){el.querySelector(".bar__fill").style.width=(d.v*100).toFixed(1)+"%";},60+i*55);
  });
  noteEl.innerHTML=task==="ner"?"Hover any bar for what that step established. <b>NER fails on formatting</b> &mdash; 54% of errors were pure boundary problems.":"Hover any bar. <b>EE fails on understanding</b> &mdash; exact and relaxed F1 are identical, so there is not one boundary point to recover.";
 }
